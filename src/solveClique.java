@@ -51,9 +51,10 @@ public class solveClique {
 			}
 		}
 		long end = System.currentTimeMillis();
-		timeMS = start - end;
+		timeMS = end - start;
 		return maxClique;
 	}
+	
 	private static int numEdges(){
 		edges = 0;
 		for(int i = 0; i < vertices; i++)
@@ -81,15 +82,17 @@ public class solveClique {
         try {
             br = new BufferedReader(new FileReader("graphs16.txt"));
             String line = null;
-            while((!(line = br.readLine()).equals(null))){
+            while((line = br.readLine()) != null){
                 edges = 0;
                 vertices = Integer.parseInt(line);
 
                 if (vertices != 0){
-
+                	numGraphs++;
+                	
                     for(int i = 0; i < vertices; i++){
                         for(int j = 0; j < vertices; j++){
-                            int v = br.read();
+                        	char c = (char) br.read();
+                    		int v = Character.getNumericValue(c);
                             graph[i][j] = v;
                             numEdges();
                             br.read(); //space
