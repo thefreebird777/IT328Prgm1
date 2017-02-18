@@ -1,3 +1,60 @@
+import java.io.File;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class solveClique {
+    public static int[][] graph;
+    public static int edges, vertices, numGraphs, row;
+    public static long timeMS;
+
+    public solveClique() {
+        graph = new int[60][60];
+        numGraphs = 0;
+        edges = 0;
+        vertices = 0;
+        row = 0;
+        timeMS = 0;
+    }
+
+    public static void main(String[] args) {
+        solveClique clique = new solveClique();
+
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader("graphs16.txt"));
+            String line = null;
+            while((!(line = br.readLine()).equals(null))){
+                edges = 0;
+                vertices = Integer.parseInt(line);
+
+                if (vertices != 0){
+
+                    for(int i = 0; i < vertices; i++){
+                        for(int j = 0; j < vertices; j++){
+                            int v = br.read();
+                            graph[i][j] = v;
+                            numEdges();
+                            br.read(); //space
+                        }
+                        br.read(); //newline
+                        br.read(); //newline
+                    }
+
+                    ArrayList<Integer> cliqueAL = new ArrayList<Integer>();
+                    cliqueAL = clique.findMaxClique(cliqueAL, row, vertices);
+                    print(cliqueAL);
+                }
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Could not find file.");
+        } catch (IOException e) {
+            System.out.println("Could not read file.");
+        }
+    }
 
 }
+
