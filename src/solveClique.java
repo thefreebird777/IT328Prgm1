@@ -106,9 +106,9 @@ public class solveClique {
             }
             br.close();
         } catch (FileNotFoundException e) {
-            System.out.println("Could not find file.");
+            System.out.println("File could not be found.");
         } catch (IOException e) {
-            System.out.println("Could not read file.");
+            System.out.println("File could not be read.");
         }
     }
 
