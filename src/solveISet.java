@@ -33,10 +33,17 @@ public class solveISet {
             boolean isClique = true;
             for(int j = 0; j < clique.size(); j++)
                 if(graph[clique.get(j)][i] != 1) isClique = false;
-            if(tempClique.size() > maxClique.size())
-                maxClique = tempClique;
+          
+        
+	        if(isClique){
+	        	ArrayList<Integer> currClique = new ArrayList<Integer>(clique);
+	        	currClique.add(i);
+	        	tempClique = findMaxISet(currClique, i+1, vertices);
+	        	
+	        	if(tempClique.size() > maxClique.size())
+	                  maxClique = tempClique;	
+	        }
         }
-
         long end = System.currentTimeMillis();
         timeMS = end - start;
 
