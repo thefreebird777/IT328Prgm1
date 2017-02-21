@@ -11,13 +11,13 @@ public class solve3CNF {
     public static int clauses;
     public static long timeMS;
 
-    public static int[][] reduce(ArrayList<Integer> cnfTokens, int dimension) {
-		int[][] graph = new int[dimension][dimension];
+    public static int[][] reduce(ArrayList<Integer> cnfTokens, int length) {
+		int[][] graph = new int[length][length];
 		
-		for(int i = 0; i < length; i++)
+		for(int i = 0; i < solve3CNF.length - 1; i++)
 		{
 			int curr = cnfTokens.get(i);
-			for(int j = i+1; j < length; j++)
+			for(int j = i + 1; j < solve3CNF.length - 1; j++)
 			{
 				int bar = cnfTokens.get(j);
 				if(i/3 == j/3) continue;
@@ -40,38 +40,37 @@ public class solve3CNF {
 		}
 		return false;
 	}
-    public static void print(int graphNum, int n, int kClique, ArrayList<Integer> currMaxClique, ArrayList<Integer> cnf) {
+    public static void print(int numGraphs, int cliqueSize, int clauses, ArrayList<Integer> maxClique, ArrayList<Integer> cnf) {
 
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		boolean duplicate = false;
-		for (int i = 0; i < currMaxClique.size(); i++) {
-			duplicate = checkForDuplicates(temp, cnf.get(currMaxClique.get(i)));
+		for (int i = 0; i < maxClique.size(); i++) {
+			duplicate = checkForDuplicates(temp, cnf.get(maxClique.get(i)));
 			if (!duplicate) {
-				temp.add(cnf.get(currMaxClique.get(i)));
+				temp.add(cnf.get(maxClique.get(i)));
 			}
 		}
-		//sort
-		int[] sortThese = new int[temp.size()];
+		int[] sort = new int[temp.size()];
 		for(int i = 0; i < temp.size(); i++) {
-			sortThese[i] = temp.get(i);
+			sort[i] = temp.get(i);
 		}
-		Arrays.sort(sortThese);
+		Arrays.sort(sort);
 
-		System.out.print("3-CNF No." + graphNum + ": [n=" + n + " k=" + kClique + "] ");
+		System.out.print("3-CNF No." + numGraphs + ": [n=" + cliqueSize + " k=" + clauses + "] ");
 
-		if (currMaxClique.size() != kClique) {
-			System.out.println("No " + kClique + "-clique; no solution");
+		if (maxClique.size() != clauses) {
+			System.out.println("No " + clauses + "-clique; no solution");
 		}
 		else {
 			// Print assignments
 			System.out.print("Assignments: [ ");
-			for(int i = 0; i < sortThese.length; i++) {
+			for(int i = 0; i < sort.length; i++) {
 				System.out.print("A" + (i+1) + "=");
-				if(sortThese[i] > 0) {
+				if(sort[i] > 0) {
 
 					System.out.print("T ");
 				}
-				else if(sortThese[i] < 0) {
+				else if(sort[i] < 0) {
 					System.out.print("F ");
 				}
 			}
