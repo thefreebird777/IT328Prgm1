@@ -19,6 +19,34 @@ public class solveClique {
         timeMS = 0;
     }
 
+    public ArrayList<Integer> findMaxClique2(ArrayList<Integer> clique, int row, int vertices, int clauses) {
+        ArrayList<Integer> tempClique = new ArrayList<Integer>();
+        ArrayList<Integer> maxClique = new ArrayList<Integer>();
+
+        maxClique = clique;
+
+
+        for (int i = row; i < vertices; i++) {
+            boolean isClique = true;
+            for (int j = 0; j < clique.size(); j++) {
+                if (graph[clique.get(j)][i] != 1) {
+                    isClique = false;
+                }
+            }
+            if (isClique) {
+                if (maxClique.size() == clauses) {
+                    break;
+                }
+                ArrayList<Integer> currClique = new ArrayList<Integer>(clique);
+                currClique.add(i);
+                tempClique = findMaxClique2(currClique, i + 1, vertices, clauses);
+                if (tempClique.size() > maxClique.size())
+                    maxClique = tempClique;
+            }
+        }
+        return maxClique;
+    }
+
     public ArrayList<Integer> findMaxClique(ArrayList<Integer> clique, int row, int vertices) {
         long start = System.currentTimeMillis();
 
@@ -86,10 +114,10 @@ public class solveClique {
                             int v = Character.getNumericValue(c);
                             graph[i][j] = v;
                             numEdges();
-                            br.read(); //space
+                            br.read();
                         }
-                        br.read(); //newline
-                        br.read(); //newline
+                        br.read();
+                        br.read();
                     }
 
                     ArrayList<Integer> cliqueAL = new ArrayList<Integer>();

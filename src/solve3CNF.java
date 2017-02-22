@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 public class solve3CNF {
     public static int cliqueSize;
@@ -31,7 +31,7 @@ public class solve3CNF {
 		return graph;
 	}
 
-	private static boolean checkForDuplicates(ArrayList<Integer> temp, int value) {
+	private static boolean ckDuplicates(ArrayList<Integer> temp, int value) {
 
 		for (int i = 0; i < temp.size(); i++) {
 			if (temp.get(i) == value) {
@@ -42,19 +42,16 @@ public class solve3CNF {
 	}
     public static void print(int numGraphs, int cliqueSize, int clauses, ArrayList<Integer> maxClique, ArrayList<Integer> cnf) {
 
-		ArrayList<Integer> temp = new ArrayList<Integer>();
+		ArrayList<Integer> aL = new ArrayList<Integer>();
 		boolean duplicate = false;
 		for (int i = 0; i < maxClique.size(); i++) {
-			duplicate = checkForDuplicates(temp, cnf.get(maxClique.get(i)));
+			duplicate = ckDuplicates(aL, cnf.get(maxClique.get(i)));
 			if (!duplicate) {
-				temp.add(cnf.get(maxClique.get(i)));
+				aL.add(cnf.get(maxClique.get(i)));
 			}
 		}
-		int[] sort = new int[temp.size()];
-		for(int i = 0; i < temp.size(); i++) {
-			sort[i] = temp.get(i);
-		}
-		Arrays.sort(sort);
+
+		Collections.sort(aL);
 
 		System.out.print("3-CNF No." + numGraphs + ": [n=" + cliqueSize + " k=" + clauses + "] ");
 
@@ -62,22 +59,21 @@ public class solve3CNF {
 			System.out.println("No " + clauses + "-clique; no solution");
 		}
 		else {
-			// Print assignments
 			System.out.print("Assignments: [ ");
-			for(int i = 0; i < sort.length; i++) {
+			for(int i = 0; i < aL.size(); i++) {
 				System.out.print("A" + (i+1) + "=");
-				if(sort[i] > 0) {
+				if(aL.get(i) > 0) {
 
 					System.out.print("T ");
 				}
-				else if(sort[i] < 0) {
+				else if(aL.get(i) < 0) {
 					System.out.print("F ");
 				}
 			}
 			System.out.println("] (" + timeMS + " ms)");
 		}
 
-		temp.clear();
+		aL.clear();
 	}
     
     public static void main(String[] args){
@@ -112,7 +108,7 @@ public class solve3CNF {
                     temp = reduce(cnf, length);
                     clique.graph = temp;
                     clique.vertices = length;
-                    maxClique = clique.findMaxClique(cliqueAL, 0 , length);
+                    maxClique = clique.findMaxClique2(cliqueAL, 0 , length, clauses);
 
                     print(numGraphs, cliqueSize,clauses, maxClique, cnf);
                     numGraphs++;
